@@ -1,11 +1,19 @@
+// server.js
 const express = require("express");
 const app = express();
 
-app.listen(3000, function () {
-  console.log("listening on 3000");
-});
+// Reads form data and puts it on req.body. Must come BEFORE the routes.
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
-  // Note: __dirname is the current directory you're in. Try logging it and see what you get!
+});
+
+app.post("/quotes", (req, res) => {
+  console.log(req.body);
+  res.redirect("/");
+});
+
+app.listen(3000, () => {
+  console.log("listening on 3000");
 });
