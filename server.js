@@ -1,19 +1,34 @@
 // server.js
-const express = require("express");
-const app = express();
+process.loadEnvFile(); // loads .env into process.env (built into Node 20.12+)
 
-// Reads form data and puts it on req.body. Must come BEFORE the routes.
+const express = require("express");
+const { MongoClient } = require("mongodb");
+
+const app = express();
+const client = new MongoClient(process.env.MONGODB_URI);
+
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
+async function start() {
+  await client.connect();
+  console.log("Connected to Database");
 
-app.post("/quotes", (req, res) => {
-  console.log(req.body);
-  res.redirect("/");
-});
+  const db = client.db("star-wars-quotes");
+  const quotesCollection = db.collection("quotes");
 
-app.listen(3000, () => {
-  console.log("listening on 3000");
-});
+  app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/index.html");
+  });
+
+  app.post("/quotes", async (req, res) => {
+    const result = await quotesCollection.insertOne(req.body);
+    console.log(result);
+    res.redirect("/");
+  });
+
+  app.listen(3000, () => {
+    console.log("listening on 3000");
+  });
+}
+
+start().catch(console.error);
