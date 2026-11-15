@@ -5,6 +5,7 @@ const express = require("express");
 const { MongoClient } = require("mongodb");
 
 const app = express();
+app.set("view engine", "ejs");
 const client = new MongoClient(process.env.MONGODB_URI);
 
 app.use(express.urlencoded({ extended: true }));
@@ -16,8 +17,9 @@ async function start() {
   const db = client.db("star-wars-quotes");
   const quotesCollection = db.collection("quotes");
 
-  app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/index.html");
+  app.get("/", async (req, res) => {
+    const quotes = await quotesCollection.find().toArray();
+    res.render("index", { quotes });
   });
 
   app.post("/quotes", async (req, res) => {
