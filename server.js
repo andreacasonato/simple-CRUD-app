@@ -9,6 +9,8 @@ app.set("view engine", "ejs");
 const client = new MongoClient(process.env.MONGODB_URI);
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static("public"));
 
 async function start() {
   await client.connect();
@@ -26,6 +28,21 @@ async function start() {
     const result = await quotesCollection.insertOne(req.body);
     console.log(result);
     res.redirect("/");
+  });
+
+  app.put("/quotes", async (req, res) => {
+    const result = await quotesCollection.findOneAndUpdate(
+      { name: "Yoda" },
+      {
+        $set: {
+          name: req.body.name,
+          quote: req.body.quote,
+        },
+      },
+      { upsert: true },
+    );
+    console.log(result);
+    res.json("Success");
   });
 
   app.listen(3000, () => {
