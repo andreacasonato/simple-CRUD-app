@@ -45,6 +45,15 @@ async function start() {
     res.json("Success");
   });
 
+  app.delete("/quotes", async (req, res) => {
+    const result = await quotesCollection.deleteOne({ name: req.body.name });
+
+    if (result.deletedCount === 0) {
+      return res.json("No quote to delete");
+    }
+    res.json("Deleted Darth Vader's quote");
+  });
+
   app.listen(3000, () => {
     console.log("listening on 3000");
   });
