@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Element lookup</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 480px;
+        margin: 40px auto;
+        padding: 0 16px;
+      }
+      form {
+        display: flex;
+        gap: 8px;
+      }
+      input {
+        flex: 1;
+        padding: 8px;
+      }
+      button {
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+      #result {
+        margin-top: 20px;
+        line-height: 1.6;
+      }
+      .error {
+        color: #b00020;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Element lookup</h1>
+
+    <form id="search-form">
+      <input
+        id="name-input"
+        type="text"
+        placeholder="Type an element, e.g. oxygen"
+      />
+      <button type="submit">Search</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script src="main.js"></script>
+  </body>
+</html>

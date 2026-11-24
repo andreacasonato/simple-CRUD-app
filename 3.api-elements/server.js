@@ -13,6 +13,7 @@ app.use(express.static(__dirname + "/public"));
 // ---------- The data ----------
 // An object: each key is an element name in lowercase,
 // each value is an object with that element's details.
+// This is my "database"
 const elements = {
   hydrogen: {
     name: "Hydrogen",
