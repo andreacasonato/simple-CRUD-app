@@ -35,7 +35,7 @@ MongoClient.connect(process.env.MONGODB_URI)
     // GET /  -> get every rapper, plug them into the EJS template, send back the HTML
     app.get("/", async (req, res) => {
       const info = await rappers.find().sort({ likes: -1 }).toArray(); // most liked first
-      res.render("index.ejs", { info }); // { info: info }
+      res.render("index.ejs", { info }); // { info: info } info is the array of objects
     });
 
     // ---------- CREATE ----------
